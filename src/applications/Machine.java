@@ -15,9 +15,10 @@ class Machine {
     Machine() {
         jobQ = new LinkedQueue();
     }
+    
 
-    public LinkedQueue getJobQ() {
-        return jobQ;
+    public void putJobOnQ(Job job){
+        jobQ.put(job);
     }
 
     public boolean hasNoJobs(){

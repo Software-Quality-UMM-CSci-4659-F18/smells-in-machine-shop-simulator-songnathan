@@ -19,6 +19,18 @@ class Machine {
         return jobQ;
     }
 
+    public boolean hasNoJobs(){
+        return jobQ.isEmpty();
+    }
+
+    public int setActiveJob(int timeNow){
+        activeJob = (Job) jobQ.remove();
+        totalWait += timeNow - activeJob.getArrivalTime();
+        numTasks++;
+        int finishTaskTime = activeJob.removeNextTask();
+        return finishTaskTime + timeNow;
+    }
+
     public int getChangeTime() {
         return changeTime;
     }

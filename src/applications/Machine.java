@@ -15,7 +15,20 @@ class Machine {
     Machine() {
         jobQ = new LinkedQueue();
     }
-    
+
+    /**
+     * change the state of theMachine
+     *
+     * @return last job run on this machine
+     */
+    public Job changeState(int theMachine,int timeNow, EventList eList) {// Task on theMachine has finished,
+
+        // schedule next one.
+        Job lastJob = getActiveJob();
+        setActiveJob(timeNow, eList, theMachine);
+
+        return lastJob;
+    }
 
     public void putJobOnQ(Job job){
         jobQ.put(job);

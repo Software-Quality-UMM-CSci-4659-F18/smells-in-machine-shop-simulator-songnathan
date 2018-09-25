@@ -36,24 +36,12 @@ public class MachineShopSimulator {
             theJob.setArrivalTime(timeNow);
             // if p idle, schedule immediately
             if (eList.nextEventTime(p) == largeTime) {// machine is idle
-                changeState(p);
+                machine[p].changeState(p,timeNow,eList);
             }
             return true;
         }
     }
-
-    /**
-     * change the state of theMachine
-     * 
-     * @return last job run on this machine
-     */
-    static Job changeState(int theMachine) {// Task on theMachine has finished,
-                                            // schedule next one.
-        Job lastJob = machine[theMachine].getActiveJob();
-        machine[theMachine].setActiveJob(timeNow, eList, theMachine);
-
-        return lastJob;
-    }
+    
 
     private static void setMachineChangeOverTimes(SimulationSpecification specification) {
         for (int i = 1; i<=specification.getNumMachines(); ++i) {
@@ -104,7 +92,7 @@ public class MachineShopSimulator {
         setUpJobs(specification);
 
         for (int p = 1; p <= numMachines; p++)
-            changeState(p);
+            machine[p].changeState(p,timeNow,eList);
     }
 
     /** process all jobs to completion
@@ -114,7 +102,7 @@ public class MachineShopSimulator {
             int nextToFinish = eList.nextEventMachine();
             timeNow = eList.nextEventTime(nextToFinish);
             // change job on machine nextToFinish
-            Job theJob = changeState(nextToFinish);
+            Job theJob = machine[nextToFinish].changeState(nextToFinish,timeNow,eList);
             // move theJob to its next machine
             // decrement numJobs if theJob has finished
             if (theJob != null && !moveToNextMachine(theJob, simulationResults))

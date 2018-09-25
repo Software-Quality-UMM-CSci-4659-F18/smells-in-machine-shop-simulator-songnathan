@@ -10,9 +10,10 @@ class Machine {
     private int numTasks; // number of tasks processed on this machine
     private Job activeJob; // job currently active on this machine
     private int machineNum; // to-do: make machines know their number
+    public static EventList eList;
 
-    // constructor
-    Machine() {
+    Machine(int machineNum){
+        this.machineNum = machineNum;
         jobQ = new LinkedQueue();
     }
 
@@ -21,11 +22,11 @@ class Machine {
      *
      * @return last job run on this machine
      */
-    public Job changeState(int theMachine,int timeNow, EventList eList) {// Task on theMachine has finished,
+    public Job changeState(int timeNow) {// Task on theMachine has finished,
 
         // schedule next one.
         Job lastJob = getActiveJob();
-        setActiveJob(timeNow, eList, theMachine);
+        setActiveJob(timeNow);
 
         return lastJob;
     }
@@ -45,7 +46,7 @@ class Machine {
 
     Also updates all relevant numbers/fields
      */
-    public int setActiveJob(int timeNow,EventList eList, int machineNum){
+    private void setActiveJob(int timeNow){
 
         //If the current active job is null, we try to give it one
         if(activeJob == null) {
@@ -55,20 +56,17 @@ class Machine {
             //idle by setting the finish time to MAX_VALUE
             if (activeJob == null){
                 eList.setFinishTime(machineNum, Integer.MAX_VALUE);
-                return Integer.MAX_VALUE;
             } else {
                 totalWait += timeNow - activeJob.getArrivalTime();
                 numTasks++;
                 int finishTaskTime = activeJob.removeNextTask();
                 eList.setFinishTime(machineNum, finishTaskTime + timeNow);
-                return finishTaskTime + timeNow;
             }
         }
         //If the active job is not null then we are finished with the task and we make the active job null
         else {
             activeJob = null;
             eList.setFinishTime(machineNum, changeTime + timeNow);
-            return changeTime + timeNow;
         }
     }
 
@@ -76,9 +74,6 @@ class Machine {
         return jobQ.isEmpty() && activeJob==null;
     }
 
-    public void setActiveJob(Job activeJob) {
-        this.activeJob = activeJob;
-    }
 
     public int getChangeTime() {
         return changeTime;

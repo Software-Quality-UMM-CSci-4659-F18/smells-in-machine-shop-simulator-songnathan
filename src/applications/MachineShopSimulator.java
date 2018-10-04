@@ -19,28 +19,6 @@ public class MachineShopSimulator {
     private static int largeTime; // all machines finish before this
 
     // methods
-    /**
-     * move theJob to machine for its next task
-     * 
-     * @return false iff no next task
-     */
-    static boolean moveToNextMachine(Job theJob, SimulationResults simulationResults) {
-        if (theJob.hasNoTasks()) {// no next task
-            simulationResults.setJobCompletionData(theJob.getId(), timeNow, timeNow - theJob.getLength());
-            return false;
-        } else {// theJob has a next task
-                // get machine for next task
-            Machine p = theJob.getNextTask().getMachine();
-            // put on machine p's wait queue
-            p.putJobOnQ(theJob);
-            theJob.setArrivalTime(timeNow);
-            // if p idle, schedule immediately
-            if (eList.nextEventTime(p.getMachineNum()) == largeTime) {// machine is idle
-                p.changeState(timeNow);
-            }
-            return true;
-        }
-    }
 
 
     private static void setMachineChangeOverTimes(SimulationSpecification specification) {
@@ -107,7 +85,7 @@ public class MachineShopSimulator {
             Job theJob = machine[nextToFinish].changeState(timeNow);
             // move theJob to its next machine
             // decrement numJobs if theJob has finished
-            if (theJob != null && !moveToNextMachine(theJob, simulationResults))
+            if (theJob != null && !theJob.moveToNextMachine(simulationResults, timeNow, eList))
                 numJobs--;
         }
     }

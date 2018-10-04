@@ -16,6 +16,29 @@ class Job {
         // length and arrivalTime have default value 0
     }
 
+    /**
+     * move theJob to machine for its next task
+     *
+     * @return false iff no next task
+     */
+    public boolean moveToNextMachine(SimulationResults simulationResults, int timeNow, EventList eList) {
+        if (hasNoTasks()) {// no next task
+            simulationResults.setJobCompletionData(getId(), timeNow, timeNow - getLength());
+            return false;
+        } else {// theJob has a next task
+                // get machine for next task
+            Machine p = getNextTask().getMachine();
+            // put on machine p's wait queue
+            p.putJobOnQ(this);
+            setArrivalTime(timeNow);
+            // if p idle, schedule immediately
+            if (eList.nextEventTime(p.getMachineNum()) == Integer.MAX_VALUE) {// machine is idle
+                p.changeState(timeNow);
+            }
+            return true;
+        }
+    }
+
     // other methods
     public void addTask(Machine theMachine, int theTime) {
         taskQ.put(new Task(theMachine, theTime));

@@ -30,13 +30,13 @@ public class MachineShopSimulator {
             return false;
         } else {// theJob has a next task
                 // get machine for next task
-            int p = ((Task) theJob.getTaskQ().getFrontElement()).getMachine();
+            Machine p = ((Task) theJob.getTaskQ().getFrontElement()).getMachine();
             // put on machine p's wait queue
-            machine[p].putJobOnQ(theJob);
+            p.putJobOnQ(theJob);
             theJob.setArrivalTime(timeNow);
             // if p idle, schedule immediately
-            if (eList.nextEventTime(p) == largeTime) {// machine is idle
-                machine[p].changeState(timeNow);
+            if (eList.nextEventTime(p.getMachineNum()) == largeTime) {// machine is idle
+                p.changeState(timeNow);
             }
             return true;
         }
@@ -63,7 +63,7 @@ public class MachineShopSimulator {
                 int theTaskTime = specification.getJobSpecifications(i).getSpecificationsForTasks()[2*(j-1)+2];
                 if (j == 1)
                     firstMachine = theMachine; // job's first machine
-                theJob.addTask(theMachine, theTaskTime); // add to
+                theJob.addTask(machine[theMachine], theTaskTime); // add to
             } // task queue
             machine[firstMachine].putJobOnQ(theJob);
         }

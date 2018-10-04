@@ -3,16 +3,16 @@ package applications;
 // top-level nested classes
 class Task {
     // data members
-    private int machine;
+    private Machine machine;
     private int time;
 
     // constructor
-    Task(int theMachine, int theTime) {
-        machine = theMachine;
-        time = theTime;
+    Task(Machine machine, int time){
+        this.machine = machine;
+        this.time = time;
     }
 
-    public int getMachine() {
+    public Machine getMachine() {
         return machine;
     }
 

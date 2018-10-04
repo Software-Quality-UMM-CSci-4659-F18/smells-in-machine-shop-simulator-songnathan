@@ -18,21 +18,21 @@ class Job {
 
     // other methods
     public void addTask(Machine theMachine, int theTime) {
-        getTaskQ().put(new Task(theMachine, theTime));
+        taskQ.put(new Task(theMachine, theTime));
     }
 
     /**
      * remove next task of job and return its time also update length
      */
     public int removeNextTask() {
-        int theTime = ((Task) getTaskQ().remove()).getTime();
+        int theTime = ((Task) taskQ.remove()).getTime();
         length = getLength() + theTime;
         return theTime;
     }
 
-    public LinkedQueue getTaskQ() {
-        return taskQ;
-    }
+//    public LinkedQueue getTaskQ() {
+//        return taskQ;
+//    }
 
     public int getLength() {
         return length;
@@ -50,4 +50,11 @@ class Job {
         return id;
     }
 
+    public Task getNextTask(){
+        return (Task) taskQ.getFrontElement();
+    }
+
+    public boolean hasNoTasks(){
+        return taskQ.isEmpty();
+    }
 }

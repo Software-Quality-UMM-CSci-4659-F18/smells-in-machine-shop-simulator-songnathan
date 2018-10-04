@@ -27,13 +27,13 @@ class Job {
             return false;
         } else {// theJob has a next task
                 // get machine for next task
-            Machine p = getNextTask().getMachine();
-            // put on machine p's wait queue
-            p.putJobOnQ(this);
+            Machine machine = getNextTask().getMachine();
+            // put on machine's wait queue
+            machine.putJobOnQ(this);
             setArrivalTime(timeNow);
-            // if p idle, schedule immediately
-            if (eList.nextEventTime(p.getMachineNum()) == Integer.MAX_VALUE) {// machine is idle
-                p.changeState(timeNow);
+            // if machine is idle, schedule immediately
+            if (eList.nextEventTime(machine.getMachineNum()) == Integer.MAX_VALUE) {// machine is idle
+                machine.changeState(timeNow);
             }
             return true;
         }

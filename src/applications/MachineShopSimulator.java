@@ -89,16 +89,8 @@ public class MachineShopSimulator {
     static void outputStatistics(SimulationResults simulationResults) {
         simulationResults.setFinishTime(timeNow);
         simulationResults.setNumMachines(numMachines);
-        setNumTasksPerMachine(simulationResults);
+        simulationResults.setNumTasksPerMachine(machine);
         simulationResults.setTotalWaitTimePerMachine(machine);
-    }
-
-    private static void setNumTasksPerMachine(SimulationResults simulationResults) {
-        int[] numTasksPerMachine = new int[numMachines+1];
-        for (int i=1; i<=numMachines; ++i) {
-            numTasksPerMachine[i] = machine[i].getNumTasks();
-        }
-        simulationResults.setNumTasksPerMachine(numTasksPerMachine);
     }
 
     public static SimulationResults runSimulation(SimulationSpecification specification) {

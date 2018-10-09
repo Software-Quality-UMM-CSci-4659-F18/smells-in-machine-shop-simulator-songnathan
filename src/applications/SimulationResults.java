@@ -14,6 +14,13 @@ public class SimulationResults {
         jobCompletions = new JobCompletionData[numJobs];
     }
 
+    public void setNumTasksPerMachine(Machine[] machine) {
+        this.numTasksPerMachine = new int[machine.length+1];
+        for (int i = 1; i<machine.length; ++i) {
+            numTasksPerMachine[i] = machine[i].getNumTasks();
+        }
+    }
+
     public void setTotalWaitTimePerMachine(Machine[] machines) {
         totalWaitTimePerMachine = new int[machines.length+1];
         for (int i = 1; i< machines.length; ++i) {
@@ -53,9 +60,7 @@ public class SimulationResults {
         return Arrays.copyOf(numTasksPerMachine, numTasksPerMachine.length);
     }
 
-    public void setNumTasksPerMachine(int[] numTasksPerMachine) {
-        this.numTasksPerMachine = numTasksPerMachine;
-    }
+
 
     public int[] getTotalWaitTimePerMachine() {
         return Arrays.copyOf(totalWaitTimePerMachine, totalWaitTimePerMachine.length);

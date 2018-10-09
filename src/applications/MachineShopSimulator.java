@@ -84,22 +84,13 @@ public class MachineShopSimulator {
         }
     }
 
-    /** output wait times at machines
-     * @param simulationResults*/
-    static void outputStatistics(SimulationResults simulationResults) {
-        simulationResults.setFinishTime(timeNow);
-        simulationResults.setNumMachines(numMachines);
-        simulationResults.setNumTasksPerMachine(machine);
-        simulationResults.setTotalWaitTimePerMachine(machine);
-    }
-
     public static SimulationResults runSimulation(SimulationSpecification specification) {
         largeTime = Integer.MAX_VALUE;
         timeNow = 0;
         startShop(specification); // initial machine loading
         SimulationResults simulationResults = new SimulationResults(numJobs);
         simulate(simulationResults); // run all jobs through shop
-        outputStatistics(simulationResults);
+        simulationResults.outputStatistics(timeNow,machine);
         return simulationResults;
     }
 

@@ -90,15 +90,7 @@ public class MachineShopSimulator {
         simulationResults.setFinishTime(timeNow);
         simulationResults.setNumMachines(numMachines);
         setNumTasksPerMachine(simulationResults);
-        setTotalWaitTimePerMachine(simulationResults);
-    }
-
-    private static void setTotalWaitTimePerMachine(SimulationResults simulationResults) {
-        int[] totalWaitTimePerMachine = new int[numMachines+1];
-        for (int i=1; i<=numMachines; ++i) {
-            totalWaitTimePerMachine[i] = machine[i].getTotalWait();
-        }
-        simulationResults.setTotalWaitTimePerMachine(totalWaitTimePerMachine);
+        simulationResults.setTotalWaitTimePerMachine(machine);
     }
 
     private static void setNumTasksPerMachine(SimulationResults simulationResults) {

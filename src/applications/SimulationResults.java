@@ -14,6 +14,29 @@ public class SimulationResults {
         jobCompletions = new JobCompletionData[numJobs];
     }
 
+    /** output wait times at machines
+     */
+    public void outputStatistics(int timeNow, Machine[] machine) {
+        setFinishTime(timeNow);
+        setNumMachines(machine.length - 1);
+        setNumTasksPerMachine(machine);
+        setTotalWaitTimePerMachine(machine);
+    }
+
+    private void setNumTasksPerMachine(Machine[] machine) {
+        this.numTasksPerMachine = new int[machine.length+1];
+        for (int i = 1; i<machine.length; ++i) {
+            numTasksPerMachine[i] = machine[i].getNumTasks();
+        }
+    }
+
+    private void setTotalWaitTimePerMachine(Machine[] machines) {
+        totalWaitTimePerMachine = new int[machines.length+1];
+        for (int i = 1; i< machines.length; ++i) {
+            totalWaitTimePerMachine[i] = machines[i].getTotalWait();
+        }
+    }
+
     public void print() {
         for (JobCompletionData data : jobCompletions) {
             System.out.println("Job " + data.getJobNumber() + " has completed at "
@@ -34,11 +57,11 @@ public class SimulationResults {
         return finishTime;
     }
 
-    public void setFinishTime(int finishTime) {
+    private void setFinishTime(int finishTime) {
         this.finishTime = finishTime;
     }
 
-    public void setNumMachines(int numMachines) {
+    private void setNumMachines(int numMachines) {
         this.numMachines = numMachines;
     }
 
@@ -46,16 +69,10 @@ public class SimulationResults {
         return Arrays.copyOf(numTasksPerMachine, numTasksPerMachine.length);
     }
 
-    public void setNumTasksPerMachine(int[] numTasksPerMachine) {
-        this.numTasksPerMachine = numTasksPerMachine;
-    }
+
 
     public int[] getTotalWaitTimePerMachine() {
         return Arrays.copyOf(totalWaitTimePerMachine, totalWaitTimePerMachine.length);
-    }
-
-    public void setTotalWaitTimePerMachine(int[] totalWaitTimePerMachine) {
-        this.totalWaitTimePerMachine = totalWaitTimePerMachine;
     }
 
     public JobCompletionData[] getJobCompletionData() {

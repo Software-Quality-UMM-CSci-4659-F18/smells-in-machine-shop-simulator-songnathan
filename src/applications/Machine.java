@@ -31,6 +31,10 @@ class Machine {
         return lastJob;
     }
 
+    public int getMachineNum(){
+        return machineNum;
+    }
+
     public void putJobOnQ(Job job){
         jobQ.put(job);
     }
